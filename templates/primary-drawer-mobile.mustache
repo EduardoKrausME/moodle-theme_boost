@@ -66,39 +66,56 @@
         </a>
     {{/drawerheading}}
     {{$drawercontent}}
-        <div class="list-group">
-            {{#mobileprimarynav}}
-                {{#haschildren}}
-                <a id="drop-down-{{sort}}" href="#" class="list-group-item list-group-item-action icons-collapse-expand {{^isopen}}collapsed {{/isopen}}d-flex" data-bs-toggle="collapse" data-bs-target="#drop-down-menu-{{sort}}" aria-expanded="{{#isopen}}true{{/isopen}}{{^isopen}}false{{/isopen}}" aria-controls="drop-down-menu-{{sort}}">
-                    {{{text}}}
-                    <span class="ms-auto expanded-icon icon-no-margin mx-2">
-                        {{#pix}} t/expanded, core {{/pix}}
-                        <span class="visually-hidden">
-                            {{#str}} collapse, core {{/str}}
-                        </span>
-                    </span>
-                    <span class="ms-auto collapsed-icon icon-no-margin mx-2">
-                        {{#pix}} t/collapsed, core {{/pix}}
-                        <span class="visually-hidden">
-                            {{#str}} expand, core {{/str}}
-                        </span>
-                    </span>
-                </a>
-                <div class="collapse {{#isopen}}show {{/isopen}}list-group-item p-0 border-0" role="menu" id="drop-down-menu-{{sort}}" aria-labelledby="drop-down-{{sort}}">
-                    {{#children}}
-                        {{^divider}}
-                             <a href="{{{url}}}" class="ps-5 {{^isactive}}bg-light{{/isactive}}{{#isactive}}active{{/isactive}} list-group-item list-group-item-action">{{{text}}}</a>
-                        {{/divider}}
-                    {{/children}}
-                </div>
-                {{/haschildren}}
-                {{^haschildren}}
-                <a href="{{{url}}}" class="list-group-item list-group-item-action {{#isactive}}active{{/isactive}} {{#classes}}{{.}} {{/classes}}" {{#isactive}}aria-current="true"{{/isactive}}>
-                    {{{text}}}
-                </a>
-                {{/haschildren}}
-            {{/mobileprimarynav}}
-        </div>
+        <nav class="mobile-primary-navigation" aria-label="{{#str}}navigation, core{{/str}}">
+            <div class="mobile-primary-navigation__caption" aria-hidden="true">
+                {{#str}}navigation, core{{/str}}
+            </div>
+            <ul class="mobile-primary-navigation__list">
+                {{#mobileprimarynav}}
+                    <li class="mobile-primary-navigation__item">
+                        {{#haschildren}}
+                            <button
+                                type="button"
+                                id="mobile-primary-nav-toggle-{{sort}}"
+                                class="mobile-primary-navigation__trigger {{#isactive}}is-active{{/isactive}}"
+                                data-bs-toggle="collapse"
+                                data-bs-target="#mobile-primary-nav-panel-{{sort}}"
+                                aria-expanded="{{#isopen}}true{{/isopen}}{{^isopen}}false{{/isopen}}"
+                                aria-controls="mobile-primary-nav-panel-{{sort}}"
+                            >
+                                <span class="mobile-primary-navigation__label">{{{text}}}</span>
+                                <span class="mobile-primary-navigation__chevron" aria-hidden="true"></span>
+                            </button>
+                            <div
+                                id="mobile-primary-nav-panel-{{sort}}"
+                                class="collapse {{#isopen}}show{{/isopen}} mobile-primary-navigation__panel"
+                            >
+                                <ul class="mobile-primary-navigation__submenu">
+                                    {{#children}}
+                                        {{^divider}}
+                                            <li>
+                                                <a
+                                                    href="{{{url}}}"
+                                                    class="mobile-primary-navigation__sublink {{#isactive}}is-active{{/isactive}}"
+                                                    {{#isactive}}aria-current="page"{{/isactive}}
+                                                >{{{text}}}</a>
+                                            </li>
+                                        {{/divider}}
+                                    {{/children}}
+                                </ul>
+                            </div>
+                        {{/haschildren}}
+                        {{^haschildren}}
+                            <a
+                                href="{{{url}}}"
+                                class="mobile-primary-navigation__link {{#isactive}}is-active{{/isactive}} {{#classes}}{{.}} {{/classes}}"
+                                {{#isactive}}aria-current="page"{{/isactive}}
+                            >{{{text}}}</a>
+                        {{/haschildren}}
+                    </li>
+                {{/mobileprimarynav}}
+            </ul>
+        </nav>
     {{/drawercontent}}
     {{$drawerstate}}show-drawer-primary{{/drawerstate}}
 {{/ theme_boost/drawer}}
